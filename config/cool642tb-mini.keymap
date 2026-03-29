@@ -1,4 +1,4 @@
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 80
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>

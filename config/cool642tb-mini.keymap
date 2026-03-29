@@ -1,31 +1,389 @@
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
+
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-
-#define MOUSE 4
-#define SCROLL 5
-#define NUM 6
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 80
-
 &mt {
     flavor = "balanced";
-    quick-tap-ms = <0>;
+    tapping-term-ms = <180>;
+};
+
+&lt {
+    flavor = "hold-preferred";
+    tapping-term-ms = <180>;
 };
 
 / {
     combos {
         compatible = "zmk,combos";
 
-        shift_tab {
-            bindings = <&kp LANG2>;
-            key-positions = <12 13>;
+        grave {
+            bindings = <&kp GRAVE>;
+            key-positions = <8 9>;
         };
 
-        lang {
-            bindings = <&kp LANG1>;
-            key-positions = <18 19>;
+        single_quote {
+            bindings = <&kp SQT>;
+            key-positions = <20 21>;
+        };
+
+        esc {
+            bindings = <&kp ESC>;
+            key-positions = <32 33>;
+        };
+
+        shift_tab {
+            bindings = <&kp LS(TAB)>;
+            key-positions = <2 3>;
+        };
+
+        quit {
+            bindings = <&sys_window_terminate>;
+            key-positions = <0 9>;
+        };
+
+        tab {
+            bindings = <&kp TAB>;
+            key-positions = <1 2>;
+        };
+
+        modify {
+            bindings = <&mo 7>;
+            key-positions = <37 41>;
+            timeout-ms = <150>;
+        };
+    };
+
+    macros {
+        duplicate_browser_tab: duplicate_browser_tab {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_press>,
+                <&kp D>,
+                <&macro_release>,
+                <&kp D>,
+                <&macro_press>,
+                <&kp ENTER>,
+                <&macro_release>,
+                <&kp ENTER>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "DUPLICATE_BROWSER_TAB";
+            tap-ms = <100>;
+        };
+
+        bk_browser: bk_browser {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_press>,
+                <&kp LEFT_ARROW>,
+                <&macro_release>,
+                <&kp LEFT_ARROW>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "BK_BROWSER";
+            tap-ms = <100>;
+        };
+
+        fw_browser: fw_browser {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_press>,
+                <&kp RIGHT_ARROW>,
+                <&macro_release>,
+                <&kp RIGHT_ARROW>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "FW_BROWSER";
+            tap-ms = <100>;
+        };
+
+        rdp_fullscreen: rdp_fullscreen {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_press>,
+                <&kp HOME>,
+                <&macro_release>,
+                <&kp HOME>,
+                <&macro_release>,
+                <&kp LCTRL>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "RDP_FULLSCREEN";
+            tap-ms = <100>;
+        };
+
+        pc_sleep: pc_sleep {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LG(X) &kp U &kp S>;
+            label = "PC_SLEEP";
+            wait-ms = <200>;
+            tap-ms = <100>;
+        };
+
+        cp_path_open: cp_path_open {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&mkp MB1 &mkp MB1 &mkp MB1 &kp LC(C)>,
+                <&macro_wait_time 200>,
+                <&macro_tap_time 100>,
+                <&kp LG(R) &kp LC(V) &kp ENTER>,
+                <&macro_wait_time 1000>,
+                <&macro_tap>,
+                <&none>;
+
+            label = "CP_PATH_OPEN";
+        };
+
+        cp_line: cp_line {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&mkp MB1 &mkp MB1 &mkp MB1 &kp LC(C)>;
+            label = "CP_LINE";
+        };
+
+        cp_word: cp_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&mkp MB1 &mkp MB1 &kp LC(C)>;
+            label = "CP_WORD";
+        };
+
+        sys_terminate_rdp: sys_terminate {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_press>,
+                <&kp END>,
+                <&macro_release>,
+                <&kp END>,
+                <&macro_release>,
+                <&kp LCTRL>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "SYS_TERMINATE";
+            tap-ms = <100>;
+        };
+
+        sys_window_terminate: sys_window_terminate {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_press>,
+                <&kp F4>,
+                <&macro_release>,
+                <&kp F4>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "SYS_WINDOW_TERMINATE";
+            tap-ms = <100>;
+        };
+
+        ppt_align_menu: ppt_align_menu {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp G>,
+                <&macro_tap>,
+                <&kp A>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_ALIGN_MENU";
+            tap-ms = <100>;
+        };
+
+        ppt_outline_menu: ppt_outline_menu {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_tap>,
+                <&kp O>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_OUTLINE_MENU";
+            tap-ms = <100>;
+        };
+
+        ppt_fill_menu: ppt_fill_menu {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_tap>,
+                <&kp F>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_FILL_MENU";
+            tap-ms = <100>;
+        };
+
+        ppt_outline_weight: ppt_outline_weight {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_tap>,
+                <&kp O>,
+                <&macro_tap>,
+                <&kp W>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_OUTLINE_WEIGHT";
+            tap-ms = <100>;
+        };
+
+        ppt_table_dist_rows: ppt_table_dist_rows {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp J>,
+                <&macro_tap>,
+                <&kp L>,
+                <&macro_tap>,
+                <&kp U>,
+                <&macro_tap>,
+                <&kp R>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_TABLE_DIST_ROWS";
+            tap-ms = <100>;
+        };
+
+        ppt_table_dist_cols: ppt_table_dist_cols {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp J>,
+                <&macro_tap>,
+                <&kp L>,
+                <&macro_tap>,
+                <&kp U>,
+                <&macro_tap>,
+                <&kp C>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_TABLE_DIST_COLS";
+            tap-ms = <100>;
+        };
+
+        ppt_shape_menu: ppt_shape_menu {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "PPT_SHAPE_MENU";
+            tap-ms = <100>;
+        };
+
+        excel_col_width_auto: excel_col_width_auto {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp O>,
+                <&macro_tap>,
+                <&kp A>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "EXCEL_COL_WIDTH_AUTO";
+            tap-ms = <100>;
+        };
+
+        excel_row_height_auto: excel_row_height_auto {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp H>,
+                <&macro_tap>,
+                <&kp O>,
+                <&macro_tap>,
+                <&kp I>,
+                <&macro_release>,
+                <&kp LALT>;
+
+            label = "EXCEL_ROW_HEIGHT_AUTO";
+            tap-ms = <100>;
         };
     };
 
@@ -34,21 +392,121 @@
             compatible = "zmk,behavior-sensor-rotate";
             label = "ENCODER_MSC_DOWN_UP";
             #sensor-binding-cells = <0>;
-            bindings = <&msc SCRL_UP>,<&msc SCRL_DOWN>;
+            bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
             tap-ms = <20>;
         };
-    };
 
+        cp_dance: cp_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "CP_DANCE";
+            #binding-cells = <0>;
+            bindings = <&cp_word>, <&cp_line>, <&cp_path_open>;
+        };
+
+        teams_sleep_dance: teams_sleep_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TEAMS_SLEEP_DANCE";
+            #binding-cells = <0>;
+            bindings =
+                <&kp LC(LS(X))>,
+                <&kp LC(LS(M))>,
+                <&kp LC(LS(O))>,
+                <&pc_sleep>;
+        };
+
+        tap_pref_mt: tap_pref_mt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TAP_PREF_MT";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+        };
+
+        tap_pref_lt: tap_pref_lt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TAP_PREF_LT";
+            bindings = <&mo>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <225>;
+            flavor = "balanced";
+        };
+
+        full_screen_dance: full_screen_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "FULL_SCREEN_DANCE";
+            #binding-cells = <0>;
+            bindings = <&kp F11>, <&rdp_fullscreen>;
+        };
+
+        hold_pref_mt: hold_pref_mt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOLD_PREF_MT";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <185>;
+        };
+
+        terminate_dance: terminate_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TERMINATE_DANCE";
+            #binding-cells = <0>;
+            bindings = <&kp LA(LC(DEL))>, <&sys_terminate_rdp>, <&cp_path_open>;
+        };
+
+        ppt_style_dance: ppt_style_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "PPT_STYLE_DANCE";
+            #binding-cells = <0>;
+            bindings = <&ppt_outline_menu>, <&ppt_fill_menu>;
+        };
+
+        ppt_table_dance: ppt_table_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "PPT_TABLE_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <400>;
+            bindings = <&ppt_table_dist_cols>, <&ppt_table_dist_rows>;
+        };
+
+        excel_cell_size_dance: excel_cell_size_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "EXCEL_CELL_SIZE_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <400>;
+            bindings = <&excel_col_width_auto>, <&excel_row_height_auto>;
+        };
+
+        time_date_dance: time_date_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TIME_DATE_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <400>;
+            bindings = <&kp LC(LS(SEMI))>, <&kp LC(SEMI)>;
+        };
+
+        outlook_dance: outlook_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "OUTLOOK_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <400>;
+            bindings = <&kp LC(N1)>, <&kp LC(N2)>, <&kp LC(N3)>;
+        };
+    };
 
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             bindings = <
-&kp Q               &kp W       &kp E         &kp R         &kp T                                                    &kp Y        &kp U  &kp I      &kp O    &kp P
-&mt LEFT_WIN A      &kp S       &kp D         &lt 4 F       &kp G        &kp LC(Y)              &kp PRINTSCREEN      &kp H        &kp J  &lt 5 K    &kp L    &kp SEMICOLON
-&mt LEFT_CONTROL Z  &kp X       &kp C         &kp V         &kp B        &kp LC(Z)              &kp ESC              &kp N        &kp M  &kp COMMA  &kp DOT  &kp SLASH
-&kp TAB             &kp C_MUTE  &kp LEFT_GUI  &kp LEFT_ALT  &lt 2 SPACE  &mt LSHIFT DELETE      &mt RSHFT BACKSPACE  &lt 1 ENTER                             &kp F4
+&kp Q                          &kp W         &kp E       &kp R        &kp T                                                               &kp Y        &tap_pref_mt LC(LALT) U  &tap_pref_lt 4 I         &kp O    &kp P
+&tap_pref_mt LCTRL A           &kp S         &kp D       &kp F        &kp G                       &kp PRINTSCREEN      &full_screen_dance  &kp H        &kp J                    &tap_pref_lt 3 K         &kp L    &tap_pref_mt RCTRL SEMI
+&tap_pref_mt LC(LEFT_SHIFT) Z  &kp X         &kp C       &kp V        &kp B                       &cp_dance            &teams_sleep_dance  &kp N        &kp M                    &tap_pref_mt LALT COMMA  &kp DOT  &tap_pref_mt LC(LEFT_SHIFT) SLASH
+&kp LALT                       &kp LEFT_WIN  &caps_word  &lt 1 LANG2  &hold_pref_mt LSHIFT SPACE  &lt 5 LANG1          &kp BACKSPACE       &lt 2 ENTER                                                             &mo 6
             >;
 
             sensor-bindings = <&encoder_msc_down_up>;
@@ -56,66 +514,64 @@
 
         FUNCTION {
             bindings = <
-&kp N1    &kp N2     &kp N3     &kp N4     &kp N5                              &kp N6     &kp N7    &kp N8    &kp N9        &kp N0
-&kp PLUS  &kp MINUS  &kp ASTRK  &kp SLASH  &kp EQUAL  &kp UNDER      &kp HOME  &kp ENTER  &kp LEFT  &kp DOWN  &kp UP_ARROW  &kp RIGHT
-&kp F1    &kp F2     &kp F3     &kp F4     &kp F5     &trans         &trans    &kp F6     &kp F7    &kp F8    &kp F9        &kp F10
-&trans    &trans     &trans     &trans     &trans     &trans         &trans    &trans                                       &kp F11
+&kp F1           &kp F2       &kp F3         &kp F4   &kp F5                       &kp F6          &kp F7          &kp F8        &kp F9           &kp F10
+&kp HOME         &kp PAGE_UP  &kp PAGE_DOWN  &kp END  &trans  &trans      &trans   &kp LEFT_ARROW  &kp DOWN_ARROW  &kp UP_ARROW  &kp RIGHT_ARROW  &kp LEFT_SHIFT
+&kp LC(LS(TAB))  &kp LC(TAB)  &trans         &trans   &trans  &trans      &kp F12  &trans          &kp LC(LS(A))   &trans        &trans           &duplicate_browser_tab
+&trans           &trans       &trans         &trans   &trans  &trans      &kp DEL  &trans                                                         &trans
             >;
         };
 
         NUM {
             bindings = <
-&kp LS(EXCL)  &kp AT        &kp LS(POUND)  &kp LS(DLLR)  &kp LS(PRCNT)                              &kp CARET    &kp AMPERSAND  &kp LS(UNDER)  &kp TILDE     &kp MINUS
-&kp SQT       &kp LS(LBRC)  &kp LBKT       &kp LS(LPAR)  &kp LS(DQT)    &kp LS(LT)      &kp LS(GT)  &kp LS(DQT)  &kp LS(RPAR)   &kp RBKT       &kp LS(RBRC)  &kp SQT
-&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &bt BT_SEL 3  &bt BT_SEL 4   &trans          &trans      &trans       &trans         &trans         &kp PIPE      &kp BACKSLASH
-&bt BT_CLR    &trans        &trans         &trans        &trans         &trans          &trans      &trans                                                   &trans
+&kp N1    &kp N2    &kp NUMBER_3  &kp NUMBER_4  &kp N5                         &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
+&kp EXCL  &kp AT    &kp HASH      &kp DLLR      &kp PRCNT  &trans      &trans  &kp CARET     &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR
+&kp BSLH  &kp LBRC  &kp RBRC      &kp UNDER     &kp EQUAL  &trans      &trans  &kp PLUS      &kp MINUS  &kp LBKT   &kp RBKT  &kp PIPE
+&trans    &trans    &trans        &trans        &trans     &trans      &trans  &trans                                        &trans
             >;
-        };
-
-        ARROW {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                          &trans
-            >;
-
-            sensor-bindings = <&inc_dec_kp LC(PAGE_UP) LC(PAGE_DOWN)>;
         };
 
         MOUSE {
             bindings = <
-&trans  &trans  &trans  &trans  &trans                      &trans  &trans    &trans  &trans    &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &mkp MB1  &trans  &mkp MB2  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans    &trans  &trans    &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                              &trans
+&trans  &trans  &trans  &trans  &trans                      &trans       &trans    &trans  &trans    &trans
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &bk_browser  &mkp MB1  &trans  &mkp MB2  &fw_browser
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans       &trans    &trans  &trans    &trans
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                                   &trans
             >;
         };
 
         SCROLL {
             bindings = <
 &trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                          &trans
-            >;
-        };
-
-        layer_6 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &kp LEFT_SHIFT
 &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                          &trans
             >;
         };
 
-        layer_7 {
+        SYSTEM {
             bindings = <
-&trans  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                          &trans
+&trans      &trans  &trans             &trans  &trans                      &trans              &kp C_VOLUME_UP     &trans                  &trans                   &terminate_dance
+&kp C_MUTE  &trans  &kp C_VOLUME_DOWN  &trans  &trans  &trans      &trans  &kp LG(LEFT_ARROW)  &kp LG(DOWN_ARROW)  &kp LG(UP_ARROW)        &kp LG(RIGHT_ARROW)      &trans
+&trans      &trans  &kp LG(LC(D))      &trans  &trans  &trans      &trans  &trans              &kp LG(TAB)         &kp LC(LG(LEFT_ARROW))  &kp LC(LG(RIGHT_ARROW))  &trans
+&trans      &trans  &trans             &trans  &trans  &trans      &trans  &trans                                                                                   &trans
+            >;
+        };
+
+        BOARD_CTRL {
+            bindings = <
+&bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                           &trans  &trans  &trans  &trans  &trans
+&trans          &trans        &trans        &trans        &trans        &trans      &trans       &trans  &trans  &trans  &trans  &trans
+&bt BT_CLR      &trans        &trans        &trans        &trans        &trans      &bootloader  &trans  &trans  &trans  &trans  &trans
+&bt BT_CLR_ALL  &trans        &trans        &trans        &trans        &trans      &trans       &trans                          &trans
+            >;
+        };
+
+        OFFICE {
+            bindings = <
+&trans  &ppt_outline_weight  &ppt_table_dance  &ppt_shape_menu  &trans                         &trans  &trans            &excel_cell_size_dance  &trans  &trans
+&trans  &ppt_style_dance     &ppt_align_menu   &kp LC(LS(G))    &kp LC(G)  &trans      &trans  &trans  &time_date_dance  &trans                  &trans  &trans
+&trans  &trans               &trans            &trans           &trans     &trans      &trans  &trans  &outlook_dance    &trans                  &trans  &trans
+&trans  &trans               &trans            &trans           &trans     &trans      &trans  &trans                                                    &trans
             >;
         };
     };

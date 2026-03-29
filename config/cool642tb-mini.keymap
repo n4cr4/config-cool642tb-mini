@@ -396,6 +396,22 @@
             tap-ms = <20>;
         };
 
+        encoder_horizontal_scroll: encoder_horizontal_scroll {
+            compatible = "zmk,behavior-sensor-rotate";
+            label = "ENCODER_HORIZONTAL_SCROLL";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc SCRL_LEFT>, <&msc SCRL_RIGHT>;
+            tap-ms = <20>;
+        };
+
+        encoder_volume: encoder_volume {
+            compatible = "zmk,behavior-sensor-rotate";
+            label = "ENCODER_VOLUME";
+            #sensor-binding-cells = <0>;
+            bindings = <&kp C_VOLUME_UP>, <&kp C_VOLUME_DOWN>;
+            tap-ms = <20>;
+        };
+
         cp_dance: cp_dance {
             compatible = "zmk,behavior-tap-dance";
             label = "CP_DANCE";
@@ -522,6 +538,7 @@
         };
 
         NUM {
+            sensor-bindings = <&encoder_horizontal_scroll>;
             bindings = <
 &kp N1    &kp N2    &kp NUMBER_3  &kp NUMBER_4  &kp N5                         &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
 &kp EXCL  &kp AT    &kp HASH      &kp DLLR      &kp PRCNT  &trans      &trans  &kp CARET     &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR
@@ -549,6 +566,7 @@
         };
 
         SYSTEM {
+            sensor-bindings = <&encoder_volume>;
             bindings = <
 &trans      &trans  &trans             &trans  &trans                      &trans              &kp C_VOLUME_UP     &trans                  &trans                   &terminate_dance
 &kp C_MUTE  &trans  &kp C_VOLUME_DOWN  &trans  &trans  &trans      &trans  &kp LG(LEFT_ARROW)  &kp LG(DOWN_ARROW)  &kp LG(UP_ARROW)        &kp LG(RIGHT_ARROW)      &trans

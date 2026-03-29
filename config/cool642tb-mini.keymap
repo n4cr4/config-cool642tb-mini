@@ -588,7 +588,7 @@
             bindings = <
 &trans  &ppt_outline_weight  &ppt_table_dance  &ppt_shape_menu  &trans                         &trans  &trans            &excel_cell_size_dance  &trans  &trans
 &trans  &ppt_style_dance     &ppt_align_menu   &kp LC(LS(G))    &kp LC(G)  &trans      &trans  &trans  &time_date_dance  &trans                  &trans  &trans
-&trans  &trans               &trans            &trans           &trans     &trans      &trans  &trans  &outlook_dance    &trans                  &trans  &trans
+&kp INT1  &trans               &trans            &trans           &trans     &trans      &trans  &trans  &outlook_dance    &trans                  &trans  &trans
 &trans  &trans               &trans            &trans           &trans     &trans      &trans  &trans                                                    &trans
             >;
         };

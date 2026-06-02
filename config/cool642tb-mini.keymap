@@ -638,7 +638,7 @@
 &kp N1      &kp N2      &kp NUMBER_3  &kp NUMBER_4  &kp N5                           &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
 &shift_sym N1  &kp LBKT    &shift_sym N3    &shift_sym N4    &shift_sym N5  &trans      &trans   &kp EQUAL     &shift_sym N6 &shift_sym SQT  &shift_sym N8  &shift_sym N9
 &kp INT1    &shift_sym RBKT  &shift_sym BSLH  &shift_sym INT1  &shift_sym MINUS  &trans      &trans  &shift_sym SEMI  &kp MINUS  &kp RBKT  &kp BSLH  &shift_sym INT3
-&trans      &trans      &trans        &trans        &trans     &trans      &trans   &trans                                        &trans
+&trans      &kp GRAVE    &trans        &trans        &trans     &trans      &kp SQT   &trans                                        &trans
             >;
         };
     };

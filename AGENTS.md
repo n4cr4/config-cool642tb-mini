@@ -41,8 +41,10 @@ nix build .#settings-reset # → result/zmk.uf2
 # West依存の更新（west.yml変更時）
 nix run .#update
 
-# フラッシュ
-nix run .#flash
+# フラッシュ（WSL: drvfs経由でUF2ブートローダーにコピー）
+nix run .#flash-win-R     # R側のみ（キーマップ変更は通常これだけで可）
+nix run .#flash-win-L     # L側のみ
+nix run .#flash-win-R -- D # ドライブレター指定も可能
 ```
 
 ### 初回セットアップ

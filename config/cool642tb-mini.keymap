@@ -54,6 +54,12 @@
             key-positions = <37 41>;
             timeout-ms = <150>;
         };
+
+        jis_num {
+            bindings = <&mo 8>;
+            key-positions = <39 41>;
+            timeout-ms = <150>;
+        };
     };
 
     macros {
@@ -590,6 +596,16 @@
 &trans  &ppt_style_dance     &ppt_align_menu   &kp LC(LS(G))    &kp LC(G)  &trans      &trans  &trans  &time_date_dance  &trans                  &trans  &trans
 &kp INT1  &trans               &trans            &trans           &trans     &trans      &trans  &trans  &outlook_dance    &trans                  &trans  &trans
 &trans  &trans               &trans            &trans           &trans     &trans      &trans  &trans                                                    &trans
+            >;
+        };
+
+        JIS_NUM {
+            sensor-bindings = <&encoder_horizontal_scroll>;
+            bindings = <
+&kp N1      &kp N2      &kp NUMBER_3  &kp NUMBER_4  &kp N5                           &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
+&kp LS(N1)  &kp LBKT    &kp LS(N3)    &kp LS(N4)    &kp LS(N5)  &trans      &trans   &kp EQUAL     &kp LS(N6) &kp LS(SQT)  &kp LS(N8)  &kp LS(N9)
+&kp INT1    &kp LS(RBKT)  &kp LS(BSLH)  &kp LS(INT1)  &kp LS(MINUS)  &trans      &trans  &kp LS(SEMI)  &kp MINUS  &kp RBKT  &kp BSLH  &kp LS(INT3)
+&trans      &trans      &trans        &trans        &trans     &trans      &trans   &trans                                        &trans
             >;
         };
     };

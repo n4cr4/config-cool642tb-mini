@@ -63,6 +63,19 @@
     };
 
     macros {
+        shift_sym: shift_sym {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            wait-ms = <50>;
+            tap-ms = <50>;
+            label = "SHIFT_SYM";
+            bindings
+                = <&macro_press &kp LSHFT>
+                , <&macro_param_1to1>
+                , <&macro_tap &kp MACRO_PLACEHOLDER>
+                , <&macro_release &kp LSHFT>;
+        };
+
         duplicate_browser_tab: duplicate_browser_tab {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -547,8 +560,8 @@
             sensor-bindings = <&encoder_horizontal_scroll>;
             bindings = <
 &kp N1    &kp N2    &kp NUMBER_3  &kp NUMBER_4  &kp N5                         &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
-&kp EXCL  &kp AT    &kp HASH      &kp DLLR      &kp PRCNT  &trans      &trans  &kp CARET     &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR
-&kp BSLH  &kp LBRC  &kp RBRC      &kp UNDER     &kp EQUAL  &trans      &trans  &kp PLUS      &kp MINUS  &kp LBKT   &kp RBKT  &kp PIPE
+&shift_sym N1  &shift_sym N2  &shift_sym N3  &shift_sym N4  &shift_sym N5  &trans      &trans  &shift_sym N6  &shift_sym N7  &shift_sym N8  &shift_sym N9  &shift_sym N0
+&kp BSLH  &shift_sym LBKT  &shift_sym RBKT  &shift_sym MINUS  &kp EQUAL  &trans      &trans  &shift_sym EQUAL  &kp MINUS  &kp LBKT   &kp RBKT  &shift_sym BSLH
 &trans    &trans    &trans        &trans        &trans     &trans      &trans  &trans                                        &trans
             >;
         };
@@ -603,8 +616,8 @@
             sensor-bindings = <&encoder_horizontal_scroll>;
             bindings = <
 &kp N1      &kp N2      &kp NUMBER_3  &kp NUMBER_4  &kp N5                           &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
-&kp LS(N1)  &kp LBKT    &kp LS(N3)    &kp LS(N4)    &kp LS(N5)  &trans      &trans   &kp EQUAL     &kp LS(N6) &kp LS(SQT)  &kp LS(N8)  &kp LS(N9)
-&kp INT1    &kp LS(RBKT)  &kp LS(BSLH)  &kp LS(INT1)  &kp LS(MINUS)  &trans      &trans  &kp LS(SEMI)  &kp MINUS  &kp RBKT  &kp BSLH  &kp LS(INT3)
+&shift_sym N1  &kp LBKT    &shift_sym N3    &shift_sym N4    &shift_sym N5  &trans      &trans   &kp EQUAL     &shift_sym N6 &shift_sym SQT  &shift_sym N8  &shift_sym N9
+&kp INT1    &shift_sym RBKT  &shift_sym BSLH  &shift_sym INT1  &shift_sym MINUS  &trans      &trans  &shift_sym SEMI  &kp MINUS  &kp RBKT  &kp BSLH  &shift_sym INT3
 &trans      &trans      &trans        &trans        &trans     &trans      &trans   &trans                                        &trans
             >;
         };

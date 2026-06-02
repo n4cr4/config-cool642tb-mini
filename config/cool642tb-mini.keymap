@@ -157,25 +157,32 @@
         pc_sleep: pc_sleep {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LG(X) &kp U &kp S>;
+            bindings
+                = <&kp LG(X)>
+                , <&macro_wait_time 300>
+                , <&kp U>
+                , <&macro_wait_time 200>
+                , <&kp S>;
             label = "PC_SLEEP";
-            wait-ms = <200>;
-            tap-ms = <100>;
+            wait-ms = <100>;
+            tap-ms = <50>;
         };
 
         cp_path_open: cp_path_open {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings =
-                <&mkp MB1 &mkp MB1 &mkp MB1 &kp LC(C)>,
-                <&macro_wait_time 200>,
-                <&macro_tap_time 100>,
-                <&kp LG(R) &kp LC(V) &kp ENTER>,
-                <&macro_wait_time 1000>,
-                <&macro_tap>,
-                <&none>;
+            bindings
+                = <&mkp MB1 &mkp MB1 &mkp MB1 &kp LC(C)>
+                , <&macro_wait_time 400>
+                , <&kp LG(R)>
+                , <&macro_wait_time 500>
+                , <&kp LC(V)>
+                , <&macro_wait_time 100>
+                , <&kp ENTER>;
 
             label = "CP_PATH_OPEN";
+            wait-ms = <40>;
+            tap-ms = <40>;
         };
 
         cp_line: cp_line {
@@ -447,7 +454,6 @@
             bindings =
                 <&kp LC(LS(X))>,
                 <&kp LC(LS(M))>,
-                <&kp LC(LS(O))>,
                 <&pc_sleep>;
         };
 

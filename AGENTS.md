@@ -29,8 +29,31 @@ config/
 
 ## ビルド
 
-GitHub Actions で `zmkfirmware/zmk@v0.3.0` のワークフローを使用。push時に自動ビルド。
-ファームウェアは `firmware/` または Actions Artifacts から取得。
+[zmk-nix](https://github.com/lilyinstarlight/zmk-nix) を使用したNixローカルビルド。
+
+### ビルドコマンド
+
+```bash
+# ファームウェアビルド（右・左・settings_reset）
+nix build .#default       # → result/zmk_R.uf2, result/zmk_L.uf2
+nix build .#settings-reset # → result/zmk.uf2
+
+# West依存の更新（west.yml変更時）
+nix run .#update
+
+# フラッシュ
+nix run .#flash
+```
+
+### 初回セットアップ
+
+1. `zephyrDepsHash` にダミーハッシュが入っている状態で `nix build` を実行
+2. エラーメッセージに正しいハッシュが表示されるので `flake.nix` の `zephyrDepsHash` を置換
+3. 再度 `nix build` でビルド成功を確認
+
+### AC条件（Acceptance Criteria）
+
+設定変更時のAC条件: **`nix build .#default` が exit code 0 で完了すること**
 
 ## キーマップ構成
 

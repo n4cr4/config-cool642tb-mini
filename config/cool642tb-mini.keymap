@@ -477,7 +477,8 @@
             tapping-term-ms = <220>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <125>;
-        };;
+            hold-trigger-key-positions = <5 6 7 8 9 16 17 18 19 20 21 28 29 30 31 32 33 40 41 42>;
+        };
 
         tap_pref_lt: tap_pref_lt {
             compatible = "zmk,behavior-hold-tap";
@@ -553,6 +554,14 @@
         };
     };
 
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer_sys {
+            if-layers = <1 2>;
+            then-layer = <5>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -579,7 +588,7 @@
         NUM {
             sensor-bindings = <&encoder_horizontal_scroll>;
             bindings = <
-&kp N1    &kp N2    &kp NUMBER_3  &kp NUMBER_4  &kp N5                         &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
+&kp N1    &kp N2    &kp N3  &kp N4  &kp N5                         &kp N6  &kp N7     &kp N8     &kp N9    &kp N0
 &shift_sym N1  &shift_sym N2  &shift_sym N3  &shift_sym N4  &shift_sym N5  &trans      &trans  &shift_sym N6  &shift_sym N7  &shift_sym N8  &shift_sym N9  &shift_sym N0
 &kp BSLH  &shift_sym LBKT  &shift_sym RBKT  &shift_sym MINUS  &kp EQUAL  &trans      &trans  &shift_sym EQUAL  &kp MINUS  &kp LBKT   &kp RBKT  &shift_sym BSLH
 &trans    &trans    &trans        &trans        &trans     &trans      &trans  &trans                                        &trans
@@ -635,7 +644,7 @@
         JIS_NUM {
             sensor-bindings = <&encoder_horizontal_scroll>;
             bindings = <
-&kp N1      &kp N2      &kp NUMBER_3  &kp NUMBER_4  &kp N5                           &kp NUMBER_6  &kp N7     &kp N8     &kp N9    &kp N0
+&kp N1      &kp N2      &kp N3  &kp N4  &kp N5                           &kp N6  &kp N7     &kp N8     &kp N9    &kp N0
 &shift_sym N1  &kp LBKT    &shift_sym N3    &shift_sym N4    &shift_sym N5  &trans      &trans   &kp EQUAL     &shift_sym N6 &shift_sym SQT  &shift_sym N8  &shift_sym N9
 &kp INT1    &shift_sym RBKT  &shift_sym BSLH  &shift_sym INT1  &shift_sym MINUS  &trans      &trans  &shift_sym SEMI  &kp MINUS  &kp RBKT  &kp BSLH  &shift_sym INT3
 &trans      &kp GRAVE    &trans        &trans        &trans     &trans      &kp SQT   &trans                                        &trans

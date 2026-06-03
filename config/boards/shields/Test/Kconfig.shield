@@ -1,5 +1,5 @@
-config SHIELD_ROBA_R
+config SHIELD_COOL642TB_MINI_R
     def_bool $(shields_list_contains,cool642tb-mini_R)
 
-config SHIELD_ROBA_L
+config SHIELD_COOL642TB_MINI_L
     def_bool $(shields_list_contains,cool642tb-mini_L)

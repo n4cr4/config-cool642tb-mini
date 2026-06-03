@@ -71,3 +71,4 @@ nix run .#flash-win-R -- D # ドライブレター指定も可能
 | 5   | SYSTEM     | 音量・ウィンドウ操作                      |
 | 6   | BOARD_CTRL | BLE接続管理・ブートローダ                 |
 | 7   | OFFICE     | PowerPoint・Excel・Outlookショートカット  |
+| 8   | JIS_NUM    | JIS配線向け数字・記号                      |

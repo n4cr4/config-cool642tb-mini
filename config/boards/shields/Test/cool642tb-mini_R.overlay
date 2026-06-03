@@ -1,4 +1,5 @@
 #include "cool642tb-mini.dtsi"
+#include <input/processors.dtsi>
 
 &default_transform {
     col-offset = <6>;
@@ -15,10 +16,22 @@
 };
 
 / {
+    zip_auto_mouse: zip_auto_mouse {
+        compatible = "zmk,input-processor-temp-layer";
+        #input-processor-cells = <2>;
+        require-prior-idle-ms = <150>;
+        excluded-positions = <5 6 7 8 9 16 19 28 29 30 31 32 33 40 41 42>;
+    };
+
     trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
+        input-processors = <&zip_auto_mouse 3 2000>;
 
+        scroller {
+            layers = <4>;
+            input-processors = <&zip_xy_to_scroll_mapper>;
+        };
     };
 };
 
@@ -57,6 +70,5 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        scroll-layers = <4>;
     };
 };

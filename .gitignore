@@ -2,9 +2,6 @@
 result
 result-*
 
-# Firmware outputs
-firmware/*.uf2
-
 # Nix build cache
 .build/
 

@@ -1,0 +1,2 @@
+# Mark firmware binaries as binary for Git diff/merge
+firmware/*.uf2 binary

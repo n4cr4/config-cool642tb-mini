@@ -89,6 +89,26 @@
       flash-win-R = makeWslFlash "R" "zmk_R.uf2";
       flash-win-L = makeWslFlash "L" "zmk_L.uf2";
 
+      # `nix run .#copy-artifacts` でビルド成果物を firmware/ へコピー
+      copy-artifacts = nixpkgs.legacyPackages.${system}.writeShellApplication {
+        name = "copy-firmware-to-repo";
+        text = ''
+          repo_root="$(pwd)"
+          out_dir="$repo_root/firmware"
+          mkdir -p "$out_dir"
+
+          src_default="${firmware}"
+          src_reset="${settings-reset}"
+
+          install -m 0644 "$src_default/zmk_R.uf2" "$out_dir/zmk_R.uf2"
+          install -m 0644 "$src_default/zmk_L.uf2" "$out_dir/zmk_L.uf2"
+          install -m 0644 "$src_reset/zmk.uf2"    "$out_dir/settings_reset.uf2"
+
+          echo "Copied firmware artifacts to $out_dir/"
+          ls -la "$out_dir/"
+        '';
+      };
+
       update = zmk-nix.packages.${system}.update;
     });
 

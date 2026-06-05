@@ -44,7 +44,9 @@ nix run .#update
 # フラッシュ（WSL: drvfs経由でUF2ブートローダーにコピー）
 nix run .#flash-win-R     # R側のみ（キーマップ変更は通常これだけで可）
 nix run .#flash-win-L     # L側のみ
-nix run .#flash-win-R -- D # ドライブレター指定も可能
+# ※UF2ドライブのドライブレターは flake.nix の flashDriveLetter で一元管理。
+#   Windows側で割り当てられるレター(D:等)は環境により異なるため、
+#   必要に応じて flashDriveLetter の値を書き換えること。
 ```
 
 ### 初回セットアップ

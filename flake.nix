@@ -20,6 +20,11 @@
     ];
 
     zephyrDepsHash = "sha256-bPVMxEpyodfr2/emynW1a+69BsY+rKuUxRu+2IxINpU=";
+
+    # XIAO BLE ブートローダーが Windows 側で割り当てられるドライブレター。
+    # 環境(Cドライブサイズ、他のUSB挿さってる等)で変わりうるので1箇所で一元管理。
+    # 変わったらこの値を書き換えるだけで flash-win-R/L 両方に反映される。
+    flashDriveLetter = "D";
   in {
     packages = forAllSystems (system: let
       firmware = zmk-nix.legacyPackages.${system}.buildSplitKeyboard {
@@ -40,28 +45,86 @@
         };
       };
 
-      makeWslFlash = side: uf2File: nixpkgs.legacyPackages.${system}.writeShellApplication {
+      makeWslFlash = side: uf2File:
+        let
+          # flashDriveLetter はこの let の外側で定義済み(クロージャ参照)
+          driveLetterLower = nixpkgs.lib.toLower flashDriveLetter;
+        in
+        nixpkgs.legacyPackages.${system}.writeShellApplication {
         name = "zmk-uf2-flash-wsl-${side}";
         text = ''
-          drive="''${1:-}"
-          if [ -n "$drive" ] && [ "''${#drive}" -le 2 ]; then
-            drive="/mnt/''${drive,,}/"
-          fi
+          # drvfs 自動マウント(WSL2 は起動後のホットプラグ USB を /mnt/<letter> に
+          # 自動マウントしないため、XIAO BLE のブートローダーを認識させるには
+          # 手動で mount -t drvfs する必要がある)
 
-          echo "Double tap reset on the ${side} side, waiting for UF2 drive"
+          # ドライブレター(環境変更時は flake.nix の flashDriveLetter を書き換える)
+          drive_letter="${flashDriveLetter}:"
+          drive="/mnt/${driveLetterLower}/"
+          drvfs_opts="metadata,uid=1000,gid=1000,umask=22"
+
+          # drvfs マウントを試行:
+          # - 既に UF2 が見えていればスキップ
+          # - 古い壊れたマウント(デバイス消失後のゴースト)は umount して再マウント
+          # - 未マウントなら新規マウント
+          ensure_drvfs_mount() {
+            if [ -f "''${drive}INFO_UF2.TXT" ]; then return 0; fi
+
+            echo ""
+            echo "UF2 drive not visible at ''${drive}"
+            echo "Attempting drvfs mount of ''${drive_letter} (sudo required)..."
+
+            if [ ! -d "$drive" ]; then
+              sudo mkdir -p "$drive" || { echo "mkdir failed"; return 1; }
+            fi
+
+            # 古い壊れたマウントを検出・整理
+            if mountpoint -q "$drive" 2>/dev/null; then
+              if ! ls "$drive" >/dev/null 2>&1; then
+                echo "Stale mountpoint detected at ''${drive}, unmounting..."
+                sudo umount "$drive" 2>/dev/null || true
+                sleep 1
+              else
+                # アクセス可能だが UF2 ではない(別デバイス?) → 何もしない
+                return 0
+              fi
+            fi
+
+            sudo mount -t drvfs "$drive_letter" "$drive" -o "$drvfs_opts" \
+              || { echo "mount failed (is the XIAO BLE in bootloader mode on Windows side?)"; return 1; }
+          }
+
+          echo "Double tap reset on the ${side} side, waiting for UF2 drive at ''${drive_letter}"
           echo -n "Scanning"
           uf2_path=""
+          attempt=0
+          mount_count=0
+          max_mounts=3
+          next_mount_attempt=5  # 初回マウント試行は5秒後
           while [ -z "$uf2_path" ]; do
-            if [ -n "$drive" ] && [ -f "''${drive}INFO_UF2.TXT" ]; then
+            # 指定レターを優先チェック
+            if [ -f "''${drive}INFO_UF2.TXT" ]; then
               uf2_path="$drive"
             else
+              # 他の /mnt/*/ に既にマウント済みの UF2 がないかスキャン
+              # (前回手動マウント時など)
               for mnt in /mnt/*/; do
                 if [ -z "$uf2_path" ] && [ -f "''${mnt}INFO_UF2.TXT" ]; then
                   uf2_path="$mnt"
                 fi
               done
             fi
-            [ -z "$uf2_path" ] && echo -n . && sleep 1
+
+            if [ -z "$uf2_path" ]; then
+              attempt=$((attempt + 1))
+              # 定期的に drvfs マウントを試行(最大 max_mounts 回)
+              if [ "$mount_count" -lt "$max_mounts" ] && [ "$attempt" -ge "$next_mount_attempt" ]; then
+                ensure_drvfs_mount || true
+                mount_count=$((mount_count + 1))
+                next_mount_attempt=$((attempt + 10))  # 次回は10秒後
+              fi
+              echo -n .
+              sleep 1
+            fi
           done
           echo ""
           echo "Found UF2 drive at ''${uf2_path}"

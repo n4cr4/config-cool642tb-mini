@@ -2,6 +2,9 @@
 result
 result-*
 
+# Firmware artifacts (nix run .# で再生成可能、binaries は git 管理外)
+firmware/
+
 # Nix build cache
 .build/
 

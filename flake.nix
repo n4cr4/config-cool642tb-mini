@@ -152,27 +152,47 @@
       flash-win-R = makeWslFlash "R" "zmk_R.uf2";
       flash-win-L = makeWslFlash "L" "zmk_L.uf2";
 
-      # `nix run .#copy-artifacts` でビルド成果物を firmware/ へコピー
-      copy-artifacts = nixpkgs.legacyPackages.${system}.writeShellApplication {
-        name = "copy-firmware-to-repo";
+      # `nix run .#` から呼ばれるビルド+コピーの wrapper
+      # (nix build は副作用を持てないため、nix run 経由でリポジトリの firmware/ へ書き込む)
+      build-and-copy = nixpkgs.legacyPackages.${system}.writeShellApplication {
+        name = "build-and-copy-firmware";
         text = ''
           repo_root="$(pwd)"
+          if [ ! -f "$repo_root/flake.nix" ]; then
+            echo "Error: flake.nix not found in current directory." >&2
+            echo "Run 'nix run .#' from the repository root." >&2
+            exit 1
+          fi
+
           out_dir="$repo_root/firmware"
+
+          echo "==> Building firmware..."
+          nix build .#firmware --out-link "$repo_root/result"
+
+          echo "==> Building settings-reset..."
+          nix build .#settings-reset --out-link "$repo_root/result-reset"
+
+          echo "==> Copying artifacts to firmware/..."
           mkdir -p "$out_dir"
+          install -m 0644 "$repo_root/result/zmk_R.uf2"      "$out_dir/zmk_R.uf2"
+          install -m 0644 "$repo_root/result/zmk_L.uf2"      "$out_dir/zmk_L.uf2"
+          install -m 0644 "$repo_root/result-reset/zmk.uf2"  "$out_dir/settings_reset.uf2"
 
-          src_default="${firmware}"
-          src_reset="${settings-reset}"
-
-          install -m 0644 "$src_default/zmk_R.uf2" "$out_dir/zmk_R.uf2"
-          install -m 0644 "$src_default/zmk_L.uf2" "$out_dir/zmk_L.uf2"
-          install -m 0644 "$src_reset/zmk.uf2"    "$out_dir/settings_reset.uf2"
-
-          echo "Copied firmware artifacts to $out_dir/"
+          echo ""
+          echo "Done. Artifacts at $out_dir/:"
           ls -la "$out_dir/"
         '';
       };
 
       update = zmk-nix.packages.${system}.update;
+    });
+
+    # `nix run .#` でビルド〜firmware/ コピーまで一発実行
+    apps = forAllSystems (system: {
+      default = {
+        type = "app";
+        program = "${self.packages.${system}.build-and-copy}/bin/build-and-copy-firmware";
+      };
     });
 
     devShells = forAllSystems (system: {

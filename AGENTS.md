@@ -34,14 +34,18 @@ config/
 ### ビルドコマンド
 
 ```bash
-# ファームウェアビルド（右・左・settings_reset）
-nix build .#default       # → result/zmk_R.uf2, result/zmk_L.uf2
-nix build .#settings-reset # → result/zmk.uf2
+# ビルド + firmware/ へのコピーを一発実行（日常はこれだけ使う）
+nix run .#               # → result/, result-reset/, firmware/ が更新される
+
+# 個別ビルド（成果物は nix store に出力され、firmware/ は更新されない）
+nix build .#firmware         # → result/zmk_R.uf2, result/zmk_L.uf2
+nix build .#settings-reset   # → result/zmk.uf2
 
 # West依存の更新（west.yml変更時）
 nix run .#update
 
 # フラッシュ（WSL: drvfs経由でUF2ブートローダーにコピー）
+# ※ flash 前に `nix run .#` を実行して firmware/ を最新化すること
 nix run .#flash-win-R     # R側のみ（キーマップ変更は通常これだけで可）
 nix run .#flash-win-L     # L側のみ
 # ※UF2ドライブのドライブレターは flake.nix の flashDriveLetter で一元管理。
@@ -57,7 +61,7 @@ nix run .#flash-win-L     # L側のみ
 
 ### AC条件（Acceptance Criteria）
 
-設定変更時のAC条件: **`nix build .#default` が exit code 0 で完了すること**
+設定変更時のAC条件: **`nix run .#` が exit code 0 で完了し、`firmware/zmk_R.uf2`, `firmware/zmk_L.uf2`, `firmware/settings_reset.uf2` が更新されること**
 
 ## キーマップ構成
 

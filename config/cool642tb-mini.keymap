@@ -154,20 +154,6 @@
             tap-ms = <100>;
         };
 
-        pc_sleep: pc_sleep {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&kp LG(X)>
-                , <&macro_wait_time 300>
-                , <&kp U>
-                , <&macro_wait_time 200>
-                , <&kp S>;
-            label = "PC_SLEEP";
-            wait-ms = <100>;
-            tap-ms = <50>;
-        };
-
         cp_path_open: cp_path_open {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -448,25 +434,39 @@
             bindings = <&cp_word>, <&cp_line>, <&cp_path_open>;
         };
 
-        teams_sleep_dance: teams_sleep_dance {
+        teams_lock_dance: teams_lock_dance {
             compatible = "zmk,behavior-tap-dance";
-            label = "TEAMS_SLEEP_DANCE";
+            label = "TEAMS_LOCK_DANCE";
             #binding-cells = <0>;
             tapping-term-ms = <500>;
             bindings =
                 <&kp LC(LS(X))>,
                 <&kp LC(LS(M))>,
-                <&pc_sleep>;
+                <&kp LG(L)>;
         };
 
-        tap_pref_mt: tap_pref_mt {
+        mod_mt: mod_mt {
             compatible = "zmk,behavior-hold-tap";
-            label = "TAP_PREF_MT";
+            label = "MOD_MT";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <220>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            require-prior-idle-ms = <100>;
+        };
+
+        mod_mt_left: mod_mt_left {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MOD_MT_LEFT";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            require-prior-idle-ms = <100>;
+            hold-trigger-key-positions = <5 6 7 8 9 16 17 18 19 20 21 28 29 30 31 32 33 40 41 42>;
+            hold-trigger-on-release;
         };
 
         a_mt: a_mt {
@@ -479,6 +479,8 @@
             tapping-term-ms = <220>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <125>;
+            hold-trigger-key-positions = <5 6 7 8 9 16 17 18 19 20 21 28 29 30 31 32 33 40 41 42>;
+            hold-trigger-on-release;
         };
 
         tap_pref_lt: tap_pref_lt {
@@ -563,9 +565,9 @@
 
         default_layer {
             bindings = <
-&kp Q                          &kp W         &kp E       &kp R        &kp T                                                               &kp Y        &tap_pref_mt LC(LALT) U  &tap_pref_lt 4 I         &kp O    &kp P
-&a_mt LCTRL A                  &kp S         &kp D       &kp F        &kp G                       &kp PRINTSCREEN      &full_screen_dance  &kp H        &kp J                    &tap_pref_lt 3 K         &kp L    &tap_pref_mt RCTRL SEMI
-&tap_pref_mt LC(LEFT_SHIFT) Z  &kp X         &kp C       &kp V        &kp B                       &cp_dance            &teams_sleep_dance  &kp N        &kp M                    &tap_pref_mt LALT COMMA  &kp DOT  &tap_pref_mt LC(LEFT_SHIFT) SLASH
+&kp Q                          &kp W         &kp E       &kp R        &kp T                                                               &kp Y        &kp U                    &tap_pref_lt 4 I         &kp O    &kp P
+&a_mt LCTRL A                  &kp S         &kp D       &kp F        &kp G                       &kp PRINTSCREEN      &full_screen_dance  &kp H        &kp J                    &tap_pref_lt 3 K         &kp L    &mod_mt RCTRL SEMI
+&mod_mt_left LC(LEFT_SHIFT) Z  &kp X         &kp C       &kp V        &kp B                       &cp_dance            &teams_lock_dance  &kp N        &kp M                    &mod_mt LALT COMMA       &kp DOT  &mod_mt LC(LEFT_SHIFT) SLASH
 &kp LALT                       &kp LEFT_WIN  &kp LCTRL  &lt 1 LANG2  &hold_pref_mt LSHIFT SPACE  &lt 5 LANG1          &kp BACKSPACE       &lt 2 ENTER                                                             &mo 6
             >;
 

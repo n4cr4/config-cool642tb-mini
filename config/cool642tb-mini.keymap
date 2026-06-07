@@ -444,6 +444,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "CP_DANCE";
             #binding-cells = <0>;
+            tapping-term-ms = <500>;
             bindings = <&cp_word>, <&cp_line>, <&cp_path_open>;
         };
 
@@ -451,6 +452,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "TEAMS_SLEEP_DANCE";
             #binding-cells = <0>;
+            tapping-term-ms = <500>;
             bindings =
                 <&kp LC(LS(X))>,
                 <&kp LC(LS(M))>,
@@ -493,6 +495,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "FULL_SCREEN_DANCE";
             #binding-cells = <0>;
+            tapping-term-ms = <500>;
             bindings = <&kp F11>, <&rdp_fullscreen>;
         };
 
@@ -510,6 +513,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "TERMINATE_DANCE";
             #binding-cells = <0>;
+            tapping-term-ms = <500>;
             bindings = <&kp LA(LC(DEL))>, <&sys_terminate_rdp>, <&cp_path_open>;
         };
 
@@ -517,6 +521,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "PPT_STYLE_DANCE";
             #binding-cells = <0>;
+            tapping-term-ms = <500>;
             bindings = <&ppt_outline_menu>, <&ppt_fill_menu>;
         };
 
@@ -524,7 +529,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "PPT_TABLE_DANCE";
             #binding-cells = <0>;
-            tapping-term-ms = <400>;
+            tapping-term-ms = <500>;
             bindings = <&ppt_table_dist_cols>, <&ppt_table_dist_rows>;
         };
 
@@ -532,7 +537,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "EXCEL_CELL_SIZE_DANCE";
             #binding-cells = <0>;
-            tapping-term-ms = <400>;
+            tapping-term-ms = <500>;
             bindings = <&excel_col_width_auto>, <&excel_row_height_auto>;
         };
 
@@ -540,7 +545,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "TIME_DATE_DANCE";
             #binding-cells = <0>;
-            tapping-term-ms = <400>;
+            tapping-term-ms = <500>;
             bindings = <&kp LC(LS(SEMI))>, <&kp LC(SEMI)>;
         };
 
@@ -548,7 +553,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "OUTLOOK_DANCE";
             #binding-cells = <0>;
-            tapping-term-ms = <400>;
+            tapping-term-ms = <500>;
             bindings = <&kp LC(N1)>, <&kp LC(N2)>, <&kp LC(N3)>;
         };
     };

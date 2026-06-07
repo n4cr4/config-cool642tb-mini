@@ -19,7 +19,8 @@ ZMK firmware v0.3 ベースの自作キーボード設定。スプリットキ�
 ```
 config/
 ├── cool642tb-mini.keymap          # キーマップ・behaviors・combos定義
-└── boards/shields/Test/
+├── cool642tb-mini.conf            # 左右共通Kconfig（ビルド時に両側へ自動マージ）
+└── boards/shields/cool642tb-mini/
     ├── cool642tb-mini.dtsi         # 共通定義（kscan、matrix transform、encoder）
     ├── cool642tb-mini_R.conf       # 右側Kconfig（PMW3610・ZMK Studio等）
     ├── cool642tb-mini_L.conf       # 左側Kconfig

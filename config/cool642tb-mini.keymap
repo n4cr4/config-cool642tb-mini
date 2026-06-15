@@ -37,8 +37,8 @@
         shift_tab {
             bindings = <&kp LS(TAB)>;
             key-positions = <2 3>;
-            timeout-ms = <40>;
-            require-prior-idle-ms = <150>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <200>;
         };
 
         quit {
@@ -597,7 +597,7 @@
             bindings = <
 &trans  &trans  &trans  &trans  &trans                      &trans       &trans    &trans  &trans    &trans
 &trans  &trans  &trans  &trans  &trans  &trans      &trans  &bk_browser  &mkp MB1  &trans  &mkp MB2  &fw_browser
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans       &trans    &trans  &trans    &trans
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans       &mkp MB3  &trans  &trans    &trans
 &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                                   &trans
             >;
         };
